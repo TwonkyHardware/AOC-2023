@@ -1,0 +1,255 @@
+--- Day 5: If You Give A Seed A Fertilizer ---
+
+You take the boat and find the gardener right where you were told he would be: managing a giant "garden" that looks more to you like a farm.
+
+"A water source? Island Island is the water source!" You point out that Snow Island isn't receiving any water.
+
+"Oh, we had to stop the water because we ran out of sand to filter it with! Can't make snow with dirty water. Don't worry, I'm sure we'll get more sand soon; we only turned off the water a few days... weeks... oh no." His face sinks into a look of horrified realization.
+
+"I've been so busy making sure everyone here has food that I completely forgot to check why we stopped getting more sand! There's a ferry leaving soon that is headed over in that direction - it's much faster than your boat. Could you please go check it out?"
+
+You barely have time to agree to this request when he brings up another. "While you wait for the ferry, maybe you can help us with our food production problem. The latest Island Island Almanac just arrived and we're having trouble making sense of it."
+
+The almanac (your puzzle input) lists all of the seeds that need to be planted. It also lists what type of soil to use with each kind of seed, what type of fertilizer to use with each kind of soil, what type of water to use with each kind of fertilizer, and so on. Every type of seed, soil, fertilizer and so on is identified with a number, but numbers are reused by each category - that is, soil 123 and fertilizer 123 aren't necessarily related to each other.
+
+For example:
+
+seeds: 79 14 55 13
+
+seed-to-soil map:
+50 98 2
+52 50 48
+
+soil-to-fertilizer map:
+0 15 37
+37 52 2
+39 0 15
+
+fertilizer-to-water map:
+49 53 8
+0 11 42
+42 0 7
+57 7 4
+
+water-to-light map:
+88 18 7
+18 25 70
+
+light-to-temperature map:
+45 77 23
+81 45 19
+68 64 13
+
+temperature-to-humidity map:
+0 69 1
+1 0 69
+
+humidity-to-location map:
+60 56 37
+56 93 4
+
+The almanac starts by listing which seeds need to be planted: seeds 79, 14, 55, and 13.
+
+The rest of the almanac contains a list of maps which describe how to convert numbers from a source category into numbers in a destination category. That is, the section that starts with seed-to-soil map: describes how to convert a seed number (the source) to a soil number (the destination). This lets the gardener and his team know which soil to use with which seeds, which water to use with which fertilizer, and so on.
+
+Rather than list every source number and its corresponding destination number one by one, the maps describe entire ranges of numbers that can be converted. Each line within a map contains three numbers: the destination range start, the source range start, and the range length.
+
+Consider again the example seed-to-soil map:
+
+50 98 2
+52 50 48
+
+The first line has a destination range start of 50, a source range start of 98, and a range length of 2. This line means that the source range starts at 98 and contains two values: 98 and 99. The destination range is the same length, but it starts at 50, so its two values are 50 and 51. With this information, you know that seed number 98 corresponds to soil number 50 and that seed number 99 corresponds to soil number 51.
+
+The second line means that the source range starts at 50 and contains 48 values: 50, 51, ..., 96, 97. This corresponds to a destination range starting at 52 and also containing 48 values: 52, 53, ..., 98, 99. So, seed number 53 corresponds to soil number 55.
+
+Any source numbers that aren't mapped correspond to the same destination number. So, seed number 10 corresponds to soil number 10.
+
+So, the entire list of seed numbers and their corresponding soil numbers looks like this:
+
+seed  soil
+0     0
+1     1
+...   ...
+48    48
+49    49
+50    52
+51    53
+...   ...
+96    98
+97    99
+98    50
+99    51
+
+With this map, you can look up the soil number required for each initial seed number:
+
+    Seed number 79 corresponds to soil number 81.
+    Seed number 14 corresponds to soil number 14.
+    Seed number 55 corresponds to soil number 57.
+    Seed number 13 corresponds to soil number 13.
+
+The gardener and his team want to get started as soon as possible, so they'd like to know the closest location that needs a seed. Using these maps, find the lowest location number that corresponds to any of the initial seeds. To do this, you'll need to convert each seed number through other categories until you can find its corresponding location number. In this example, the corresponding types are:
+
+    Seed 79, soil 81, fertilizer 81, water 81, light 74, temperature 78, humidity 78, location 82.
+    Seed 14, soil 14, fertilizer 53, water 49, light 42, temperature 42, humidity 43, location 43.
+    Seed 55, soil 57, fertilizer 57, water 53, light 46, temperature 82, humidity 82, location 86.
+    Seed 13, soil 13, fertilizer 52, water 41, light 34, temperature 34, humidity 35, location 35.
+
+So, the lowest location number in this example is 35.
+
+What is the lowest location number that corresponds to any of the initial seed numbers?
+
+To begin, get your [puzzle input](https://adventofcode.com/2023/day/5/input).
+
+--- Part Two ---
+
+Everyone will starve if you only plant such a small number of seeds. Re-reading the almanac, it looks like the seeds: line actually describes ranges of seed numbers.
+
+The values on the initial seeds: line come in pairs. Within each pair, the first value is the start of the range and the second value is the length of the range. So, in the first line of the example above:
+
+seeds: 79 14 55 13
+
+This line describes two ranges of seed numbers to be planted in the garden. The first range starts with seed number 79 and contains 14 values: 79, 80, ..., 91, 92. The second range starts with seed number 55 and contains 13 values: 55, 56, ..., 66, 67.
+
+Now, rather than considering four seed numbers, you need to consider a total of 27 seed numbers.
+
+In the above example, the lowest location number can be obtained from seed number 82, which corresponds to soil 84, fertilizer 84, water 84, light 77, temperature 45, humidity 46, and location 46. So, the lowest location number is 46.
+
+Consider all of the initial seed numbers listed in the ranges on the first line of the almanac. What is the lowest location number that corresponds to any of the initial seed numbers?
+
+
+
+NOTES:
+Part 1:
+
+Overall output
+Seed 763445965 -> Location 1267175914
+Seed 78570222 -> Location 2630041938
+Seed 1693788857 -> Location 4100783722
+Seed 146680070 -> Location 779952589
+Seed 1157620425 -> Location 473133131
+Seed 535920936 -> Location 345420307
+Seed 3187993807 -> Location 3413494836
+Seed 180072493 -> Location 813345012
+Seed 1047354752 -> Location 3802688341
+Seed 20193861 -> Location 2224742782
+Seed 2130924847 -> Location 2521856781
+Seed 274042257 -> Location 3909005566
+Seed 20816377 -> Location 2225365298
+Seed 596708258 -> Location 2877095418
+Seed 950268560 -> Location 1159584779
+Seed 11451287 -> Location 1380297256
+Seed 3503767450 -> Location 2988476391
+Seed 182465951 -> Location 815738470
+Seed 3760349291 -> Location 265018614
+Seed 265669041 -> Location 3900632350
+Lowest location value: 265018614
+
+Choose this line for a spot-check
+Seed 20816377 -> Location 2225365298
+
+Seed 20816377 -> Soil 2181304462
+Soil 2181304462 -> Fertilizer 3246191065
+Fertilizer 3246191065 -> Water 3857590008
+Water 3857590008 -> Light 3202646135
+Light 3202646135 -> Temperature 1583488356
+Temperature 1583488356 -> Humidity 2545612824
+Humidity 2545612824 -> Location 2225365298
+
+That checks out, and the answer is correct.  Gold star.
+
+For references, I had these cases where there is no offset:
+seed: 78570222, source type: fertilizer, source value: 2865401648
+seed: 146680070, source type: fertilizer, source value: 2933511496
+seed: 535920936, source type: light, source value: 1821723
+seed: 180072493, source type: fertilizer, source value: 2966903919
+seed: 182465951, source type: fertilizer, source value: 2969297377
+seed: 3760349291, source type: light, source value: 269517937
+
+--- Part Two ---
+
+Everyone will starve if you only plant such a small number of seeds. Re-reading the almanac, it looks like the seeds: line actually describes ranges of seed numbers.
+
+The values on the initial seeds: line come in pairs. Within each pair, the first value is the start of the range and the second value is the length of the range. So, in the first line of the example above:
+
+seeds: 79 14 55 13
+
+This line describes two ranges of seed numbers to be planted in the garden. The first range starts with seed number 79 and contains 14 values: 79, 80, ..., 91, 92. The second range starts with seed number 55 and contains 13 values: 55, 56, ..., 66, 67.
+
+Now, rather than considering four seed numbers, you need to consider a total of 27 seed numbers.
+
+In the above example, the lowest location number can be obtained from seed number 82, which corresponds to soil 84, fertilizer 84, water 84, light 77, temperature 45, humidity 46, and location 46. So, the lowest location number is 46.
+
+Consider all of the initial seed numbers listed in the ranges on the first line of the almanac. What is the lowest location number that corresponds to any of the initial seed numbers?
+
+
+NOTES:
+Part 2: seeds now come in ranges.
+763445965 78570222 1693788857 146680070 1157620425 535920936 3187993807 180072493 1047354752 20193861 2130924847 274042257 20816377 596708258 950268560 11451287 3503767450 182465951 3760349291 265669041
+
+The ranges are of sizes
+78570222
+146680070
+535920936
+180072493
+20193861
+274042257
+596708258
+11451287
+182465951
+265669041
+
+If there's no overlap, that's an incredible number of calculations to have to do.
+2,291,774,376.
+
+Check for overlap.
+
+I tried to check for overlap with this code
+```
+        if line.startswith('seeds:'):
+            seeds += list(line[7:].split())
+
+            seeds = [int(seed) for seed in seeds]
+            # For part 2, `seeds` now defines ranges.
+            # Ranges cover > 2 billion, so check for overlap
+
+            #print(seeds)
+            #print(len(seeds))
+            for i in range(0, len(seeds), 2):
+                #print(i)
+                
+                current_set = set(range(seeds[i], seeds[i]+seeds[i+1]))
+                seed_set |= seed_set | current_set
+
+            print(len(seed_set))
+```
+but for the first time in my experience, Python killed it:
+
+```
+speckle@Apartment:~/Projects/Advent_of_Code/2023/05$ date; python3 part2.py; date
+Tue Dec  5 07:12:23 PM EST 2023
+[5]+  Killed                  python3 part2.py
+Killed
+Tue Dec  5 07:13:38 PM EST 2023
+```
+
+Clearly the author would not expect us to do it seed-by-seed then.
+The only other approach I can think of is to map out the range blocks.
+
+
+Trying to map blocks, but there are gaps in some outputs.
+WARNING: Output gap block found in ('soil', 'fertilizer'): 2603314195 -> 2607585696
+WARNING: Output gap block found in ('fertilizer', 'water'): 3798694276 -> 3846730322
+WARNING: Output gap block found in ('water', 'light'): 1286466833 -> 1305612480
+WARNING: Output gap block found in ('light', 'temperature'): 938881022 -> 965696631
+WARNING: Output gap block found in ('light', 'temperature'): 1142047574 -> 1148165380
+WARNING: Output gap block found in ('temperature', 'humidity'): 1427151141 -> 1504994861
+WARNING: Output gap block found in ('humidity', 'location'): 3742730647 -> 3753912177
+
+I guess these are unreachable?
+
+The end result is that by the end of the night I was exhausted and mapping backwards from the lowest locations by "blocks" of mapping numbers still left too many seeds to check.  I was not able to find any other way of reducing the number of calculations that need to be done to what can be handled on my laptop.
+
+Failure!  No stars.
+
+
